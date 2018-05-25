@@ -33,8 +33,8 @@ podTemplate(label: 'mypod', containers: [
             withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                 sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/khinkali/core-events.git --tags"
             }
-            container('maven') {
-                withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+            withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                container('maven') {
                     sh "mvn -s settings.xml clean deploy"
                 }
             }
