@@ -9,6 +9,7 @@ import org.apache.kafka.common.errors.WakeupException;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
@@ -21,6 +22,12 @@ public class EventConsumer implements Runnable {
         this.eventConsumer = eventConsumer;
         consumer = new KafkaConsumer<>(kafkaProperties);
         consumer.subscribe(asList(topics));
+    }
+
+    public EventConsumer(Properties kafkaProperties, Consumer<BaseEvent> eventConsumer, Pattern pattern) {
+        this.eventConsumer = eventConsumer;
+        consumer = new KafkaConsumer<>(kafkaProperties);
+        consumer.subscribe(pattern);
     }
 
     @Override
