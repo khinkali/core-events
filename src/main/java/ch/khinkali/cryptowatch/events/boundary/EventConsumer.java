@@ -1,6 +1,5 @@
 package ch.khinkali.cryptowatch.events.boundary;
 
-import ch.khinkali.cryptowatch.events.entity.BaseEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -13,18 +12,18 @@ import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
-public class EventConsumer implements Runnable {
-    private final KafkaConsumer<String, BaseEvent> consumer;
-    private final Consumer<BaseEvent> eventConsumer;
+public class EventConsumer<KEY, VALUE> implements Runnable {
+    private final KafkaConsumer<KEY, VALUE> consumer;
+    private final Consumer<VALUE> eventConsumer;
     private final AtomicBoolean closed = new AtomicBoolean();
 
-    public EventConsumer(Properties kafkaProperties, Consumer<BaseEvent> eventConsumer, String... topics) {
+    public EventConsumer(Properties kafkaProperties, Consumer<VALUE> eventConsumer, String... topics) {
         this.eventConsumer = eventConsumer;
         consumer = new KafkaConsumer<>(kafkaProperties);
         consumer.subscribe(asList(topics));
     }
 
-    public EventConsumer(Properties kafkaProperties, Consumer<BaseEvent> eventConsumer, Pattern pattern) {
+    public EventConsumer(Properties kafkaProperties, Consumer<VALUE> eventConsumer, Pattern pattern) {
         this.eventConsumer = eventConsumer;
         consumer = new KafkaConsumer<>(kafkaProperties);
         consumer.subscribe(pattern);
@@ -44,8 +43,8 @@ public class EventConsumer implements Runnable {
     }
 
     private void consume() {
-        ConsumerRecords<String, BaseEvent> records = consumer.poll(Long.MAX_VALUE);
-        for (ConsumerRecord<String, BaseEvent> record : records) {
+        ConsumerRecords<KEY, VALUE> records = consumer.poll(Long.MAX_VALUE);
+        for (ConsumerRecord<KEY, VALUE> record : records) {
             eventConsumer.accept(record.value());
         }
         consumer.commitSync();
