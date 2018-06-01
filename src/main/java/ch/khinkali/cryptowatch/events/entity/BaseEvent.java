@@ -39,4 +39,6 @@ public abstract class BaseEvent {
                 .add(JSON_KEYS.ID.getJsonKey(), id)
                 .add(JSON_KEYS.TIMESTAMP.getJsonKey(), timestamp);
     }
+
+    public abstract JsonObject getJson();
 }
