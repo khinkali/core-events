@@ -1,6 +1,5 @@
 package ch.khinkali.cryptowatch.events.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,7 +10,6 @@ import javax.json.JsonObjectBuilder;
 import java.util.Date;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Getter
 @EqualsAndHashCode(of = {"id"})
 @ToString
@@ -31,8 +29,9 @@ public abstract class BaseEvent {
     private String id;
     private Long timestamp;
 
-    public BaseEvent(JsonObject jsonObject) {
-        this(UUID.randomUUID().toString(), new Date().getTime());
+    public BaseEvent() {
+        this.id = UUID.randomUUID().toString();
+        this.timestamp = new Date().getTime();
     }
 
     public JsonObjectBuilder getJsonBuilder() {
