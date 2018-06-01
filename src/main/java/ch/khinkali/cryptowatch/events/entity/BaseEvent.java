@@ -8,6 +8,8 @@ import lombok.ToString;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import java.util.Date;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
@@ -30,8 +32,7 @@ public abstract class BaseEvent {
     private Long timestamp;
 
     public BaseEvent(JsonObject jsonObject) {
-        this(jsonObject.getString(JSON_KEYS.ID.getJsonKey()),
-                jsonObject.getJsonNumber(JSON_KEYS.TIMESTAMP.getJsonKey()).longValue());
+        this(UUID.randomUUID().toString(), new Date().getTime());
     }
 
     public JsonObjectBuilder getJsonBuilder() {
