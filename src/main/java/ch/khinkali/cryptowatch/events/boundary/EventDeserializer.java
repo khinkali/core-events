@@ -23,7 +23,7 @@ public class EventDeserializer implements Deserializer<BaseEvent> {
         try (ByteArrayInputStream input = new ByteArrayInputStream(data)) {
             final JsonObject jsonObject = Json.createReader(input).readObject();
             final Class<? extends BaseEvent> eventClass = (Class<? extends BaseEvent>) Class.forName(jsonObject.getString("class"));
-            return eventClass.getConstructor(JsonObject.class).newInstance(jsonObject.getJsonObject("data"));
+            return eventClass.getConstructor(JsonObject.class).newInstance(jsonObject.getJsonObject("id"), jsonObject.getJsonObject("data"));
         } catch (Exception e) {
             logger.severe("Could not deserialize event: " + e.getMessage());
             e.printStackTrace();
