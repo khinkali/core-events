@@ -21,7 +21,6 @@ public class EventSerializer implements Serializer<BaseEvent> {
     public byte[] serialize(final String topic, final BaseEvent event) {
         return Json.createObjectBuilder()
                 .add("class", event.getClass().getCanonicalName())
-                .add("id", event.getId())
                 .add("data", event.getJson())
                 .build()
                 .toString()
