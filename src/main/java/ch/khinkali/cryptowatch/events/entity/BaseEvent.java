@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 
 @AllArgsConstructor
 @Getter
@@ -33,10 +34,9 @@ public abstract class BaseEvent {
                 jsonObject.getJsonNumber(JSON_KEYS.TIMESTAMP.getJsonKey()).longValue());
     }
 
-    public JsonObject getJson() {
+    public JsonObjectBuilder getJson() {
         return Json.createObjectBuilder()
                 .add(JSON_KEYS.ID.getJsonKey(), id)
-                .add(JSON_KEYS.TIMESTAMP.getJsonKey(), timestamp)
-                .build();
+                .add(JSON_KEYS.TIMESTAMP.getJsonKey(), timestamp);
     }
 }
