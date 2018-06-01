@@ -34,7 +34,7 @@ public abstract class BaseEvent {
                 jsonObject.getJsonNumber(JSON_KEYS.TIMESTAMP.getJsonKey()).longValue());
     }
 
-    public JsonObjectBuilder getJson() {
+    public JsonObjectBuilder getJsonBuilder() {
         return Json.createObjectBuilder()
                 .add(JSON_KEYS.ID.getJsonKey(), id)
                 .add(JSON_KEYS.TIMESTAMP.getJsonKey(), timestamp);
