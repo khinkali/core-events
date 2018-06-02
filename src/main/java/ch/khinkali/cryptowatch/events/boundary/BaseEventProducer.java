@@ -1,6 +1,5 @@
 package ch.khinkali.cryptowatch.events.boundary;
 
-import ch.khinkali.cryptowatch.events.entity.BaseEvent;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -11,10 +10,10 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-public class BaseEventProducer {
+public class BaseEventProducer<KEY, VALUE> {
     private static final Logger logger = Logger.getLogger(BaseEventProducer.class.getName());
 
-    private Producer<String, BaseEvent> producer;
+    private Producer<KEY, VALUE> producer;
 
     protected void init(Properties kafkaProperties) {
         try {
@@ -26,8 +25,8 @@ public class BaseEventProducer {
         }
     }
 
-    public void publish(String topic, BaseEvent event) {
-        final ProducerRecord<String, BaseEvent> record = new ProducerRecord<>(topic, event);
+    public void publish(String topic, VALUE event) {
+        final ProducerRecord<KEY, VALUE> record = new ProducerRecord<>(topic, event);
         try {
             producer.beginTransaction();
             producer.send(record);
